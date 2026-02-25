@@ -1,0 +1,92 @@
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
+import {
+    User, Search, Home, Calendar, Inbox, Settings, Trash2, LogOut, ChevronLeft, ChevronRight
+} from "lucide-react";
+import LogoMark from "./LogoMark";
+
+const navItems = [
+    { icon: Home, label: "Homepage", path: "/dashboard" },
+    { icon: Search, label: "Search", path: "/dashboard/search" },
+    { icon: Calendar, label: "Calendar", path: "/dashboard/calendar" },
+    { icon: Inbox, label: "Inbox", path: "/dashboard/inbox" },
+    { icon: Settings, label: "Settings", path: "/dashboard/settings" },
+    { icon: Trash2, label: "Trash", path: "/dashboard/trash" },
+];
+
+const AppSidebar = () => {
+    const [collapsed, setCollapsed] = useState(false);
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    return (
+        <aside
+            className={`flex flex-col h-full border-r border-border bg-sidebar transition-all duration-200 ${collapsed ? "w-16" : "w-60"
+                }`}
+        >
+            {/* Logo + collapse */}
+            <div className="flex items-center justify-between p-3 border-b border-border">
+                {!collapsed && (
+                    <div className="flex items-center gap-2">
+                        <LogoMark size={28} />
+                        <span className="text-sm font-semibold text-foreground">TaskFlow</span>
+                    </div>
+                )}
+                <button
+                    onClick={() => setCollapsed((v) => !v)}
+                    className="p-1.5 rounded-md hover:bg-accent text-muted-foreground transition-colors"
+                >
+                    {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+                </button>
+            </div>
+
+            {/* Profile */}
+            <div className={`flex items-center gap-3 p-3 border-b border-border ${collapsed ? "justify-center" : ""}`}>
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0">
+                    <User size={16} />
+                </div>
+                {!collapsed && (
+                    <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">{user?.fullName || "User"}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                    </div>
+                )}
+            </div>
+
+            {/* Nav */}
+            <nav className="flex-1 p-2 space-y-1 overflow-y-auto">
+                {navItems.map((item) => {
+                    const active = location.pathname === item.path;
+                    return (
+                        <button
+                            key={item.path}
+                            onClick={() => navigate(item.path)}
+                            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${active
+                                    ? "bg-primary/15 text-primary font-medium"
+                                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                                } ${collapsed ? "justify-center" : ""}`}
+                        >
+                            <item.icon size={18} />
+                            {!collapsed && <span>{item.label}</span>}
+                        </button>
+                    );
+                })}
+            </nav>
+
+            {/* Logout */}
+            <div className="p-2 border-t border-border">
+                <button
+                    onClick={() => { logout(); navigate("/login"); }}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors ${collapsed ? "justify-center" : ""}`}
+                >
+                    <LogOut size={18} />
+                    {!collapsed && <span>Log out</span>}
+                </button>
+            </div>
+        </aside>
+    );
+};
+
+export default AppSidebar;

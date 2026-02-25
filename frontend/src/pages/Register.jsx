@@ -59,7 +59,7 @@ const Register = () => {
       await signup({ email: form.email, password: form.password, full_name: form.fullName });
       navigate("/dashboard");
     } catch (err) {
-      setError(err?.response?.data?.detail || "This email may already be registered.");
+      setError(err?.response?.data?.detail || err?.message || "This email may already be registered.");
     } finally {
       setLoading(false);
     }

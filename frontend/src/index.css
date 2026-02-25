@@ -19,6 +19,40 @@
   --color-surface-800: #16161f;
   --color-surface-700: #1e1e2e;
   --color-surface-600: #252537;
+
+  /* Semantic tokens for shadcn components */
+  --color-background: hsl(240 33% 4%);
+  --color-foreground: hsl(215 28% 90%);
+  --color-card: hsl(240 16% 10%);
+  --color-card-foreground: hsl(215 28% 90%);
+  --color-popover: hsl(240 16% 10%);
+  --color-popover-foreground: hsl(215 28% 90%);
+  --color-primary: hsl(239 84% 67%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(240 14% 15%);
+  --color-secondary-foreground: hsl(215 28% 90%);
+  --color-muted: hsl(240 14% 15%);
+  --color-muted-foreground: hsl(215 15% 60%);
+  --color-accent: hsl(240 13% 18%);
+  --color-accent-foreground: hsl(215 28% 90%);
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(240 10% 16%);
+  --color-input: hsl(240 14% 15%);
+  --color-ring: hsl(239 84% 67%);
+
+  --radius-lg: 0.625rem;
+  --radius-md: calc(0.625rem - 2px);
+  --radius-sm: calc(0.625rem - 4px);
+
+  --color-sidebar-background: hsl(240 24% 7%);
+  --color-sidebar-foreground: hsl(215 28% 90%);
+  --color-sidebar-primary: hsl(239 84% 67%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(240 14% 15%);
+  --color-sidebar-accent-foreground: hsl(215 28% 90%);
+  --color-sidebar-border: hsl(240 10% 16%);
+  --color-sidebar-ring: hsl(239 84% 67%);
 }
 
 
@@ -29,6 +63,35 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --background: 240 33% 4%;
+  --foreground: 215 28% 90%;
+  --card: 240 16% 10%;
+  --card-foreground: 215 28% 90%;
+  --popover: 240 16% 10%;
+  --popover-foreground: 215 28% 90%;
+  --primary: 239 84% 67%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 14% 15%;
+  --secondary-foreground: 215 28% 90%;
+  --muted: 240 14% 15%;
+  --muted-foreground: 215 15% 60%;
+  --accent: 240 13% 18%;
+  --accent-foreground: 215 28% 90%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 240 10% 16%;
+  --input: 240 14% 15%;
+  --ring: 239 84% 67%;
+
+  --sidebar-background: 240 24% 7%;
+  --sidebar-foreground: 215 28% 90%;
+  --sidebar-primary: 239 84% 67%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 14% 15%;
+  --sidebar-accent-foreground: 215 28% 90%;
+  --sidebar-border: 240 10% 16%;
+  --sidebar-ring: 239 84% 67%;
 
   --color-brand: #6366f1;
   --color-brand-hover: #4f46e5;
@@ -137,4 +200,48 @@ body {
 .btn-primary:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+/* ─── Ambient Glow ───────────────────────────────────────────── */
+.ambient-glow {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse, hsla(var(--primary) / 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-600);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-surface-700);
+}
+
+/* ─── ContentEditable placeholder ────────────────────────────── */
+[contenteditable=true]:empty:before {
+  content: attr(data-placeholder);
+  color: hsl(var(--muted-foreground));
+  pointer-events: none;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
 }
