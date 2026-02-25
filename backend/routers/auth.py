@@ -15,7 +15,8 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
 
     new_user = User(
         email=user.email,
-        password=hash_password(user.password)
+        hashed_password=hash_password(user.password),
+        display_name=user.email.split("@")[0]
     )
     db.add(new_user)
     db.commit()
@@ -38,7 +39,7 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     if not db_user:
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
-    if not verify_password(user.password, db_user.password):
+    if not verify_password(user.password, db_user.hashed_password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
     token = create_access_token({"sub": db_user.email})
