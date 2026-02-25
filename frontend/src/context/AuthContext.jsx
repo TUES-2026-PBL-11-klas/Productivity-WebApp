@@ -12,29 +12,21 @@ export const AuthProvider = ({ children }) => {
     return token && email ? { email } : null;
   });
 
-  const normalizeEmail = (email) => (email ?? "").trim().toLowerCase();
-
   const login = async (data) => {
-    const email = normalizeEmail(data?.email);
-    const res = await loginRequest({ ...data, email });
+    const res = await loginRequest(data);
     const token = res.data?.data?.session?.access_token;
 
     if (!token) {
       throw new Error("No access token returned. Please check your credentials.");
     }
 
-    // Derive a simple display name from the email (before we persist full names)
-    const displayName = email ? email.split("@")[0] : "";
-
     localStorage.setItem("token", token);
-    localStorage.setItem("userEmail", email);
-    localStorage.setItem("userDisplayName", displayName);
-    setUser({ email, displayName });
+    localStorage.setItem("userEmail", data.email);
+    setUser({ email: data.email });
   };
 
   const signup = async (data) => {
-    const email = normalizeEmail(data?.email);
-    const res = await signupRequest({ ...data, email });
+    const res = await signupRequest(data);
     const token = res.data?.data?.session?.access_token;
 
     if (!token) {
@@ -43,14 +35,9 @@ export const AuthProvider = ({ children }) => {
       );
     }
 
-    const displayName =
-      data?.full_name?.trim() ||
-      (email ? email.split("@")[0] : "");
-
     localStorage.setItem("token", token);
-    localStorage.setItem("userEmail", email);
-    localStorage.setItem("userDisplayName", displayName);
-    setUser({ email, displayName });
+    localStorage.setItem("userEmail", data.email);
+    setUser({ email: data.email });
   };
 
   const logout = () => {
