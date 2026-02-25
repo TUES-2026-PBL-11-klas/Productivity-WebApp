@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-200: #c7d2fe;
+  --color-brand-300: #a5b4fc;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-800: #3730a3;
+  --color-brand-900: #312e81;
+
+  --color-surface-950: #0a0a0f;
+  --color-surface-900: #0f0f17;
+  --color-surface-800: #16161f;
+  --color-surface-700: #1e1e2e;
+  --color-surface-600: #252537;
+
+  /* Semantic tokens for shadcn components */
+  --color-background: hsl(240 33% 4%);
+  --color-foreground: hsl(215 28% 90%);
+  --color-card: hsl(240 16% 10%);
+  --color-card-foreground: hsl(215 28% 90%);
+  --color-popover: hsl(240 16% 10%);
+  --color-popover-foreground: hsl(215 28% 90%);
+  --color-primary: hsl(239 84% 67%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(240 14% 15%);
+  --color-secondary-foreground: hsl(215 28% 90%);
+  --color-muted: hsl(240 14% 15%);
+  --color-muted-foreground: hsl(215 15% 60%);
+  --color-accent: hsl(240 13% 18%);
+  --color-accent-foreground: hsl(215 28% 90%);
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(240 10% 16%);
+  --color-input: hsl(240 14% 15%);
+  --color-ring: hsl(239 84% 67%);
+
+  --radius-lg: 0.625rem;
+  --radius-md: calc(0.625rem - 2px);
+  --radius-sm: calc(0.625rem - 4px);
+
+  --color-sidebar-background: hsl(240 24% 7%);
+  --color-sidebar-foreground: hsl(215 28% 90%);
+  --color-sidebar-primary: hsl(239 84% 67%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(240 14% 15%);
+  --color-sidebar-accent-foreground: hsl(215 28% 90%);
+  --color-sidebar-border: hsl(240 10% 16%);
+  --color-sidebar-ring: hsl(239 84% 67%);
+}
+
+
+/* ─── Global Reset & Dark Theme Base ─────────────────────────── */
+:root {
+  font-family: "Inter", system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --background: 240 33% 4%;
+  --foreground: 215 28% 90%;
+  --card: 240 16% 10%;
+  --card-foreground: 215 28% 90%;
+  --popover: 240 16% 10%;
+  --popover-foreground: 215 28% 90%;
+  --primary: 239 84% 67%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 14% 15%;
+  --secondary-foreground: 215 28% 90%;
+  --muted: 240 14% 15%;
+  --muted-foreground: 215 15% 60%;
+  --accent: 240 13% 18%;
+  --accent-foreground: 215 28% 90%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 240 10% 16%;
+  --input: 240 14% 15%;
+  --ring: 239 84% 67%;
+
+  --sidebar-background: 240 24% 7%;
+  --sidebar-foreground: 215 28% 90%;
+  --sidebar-primary: 239 84% 67%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 14% 15%;
+  --sidebar-accent-foreground: 215 28% 90%;
+  --sidebar-border: 240 10% 16%;
+  --sidebar-ring: 239 84% 67%;
+
+  --color-brand: #6366f1;
+  --color-brand-hover: #4f46e5;
+  --color-surface-950: #0a0a0f;
+  --color-surface-900: #0f0f17;
+  --color-surface-800: #16161f;
+  --color-surface-700: #1e1e2e;
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-surface-950);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+/* ─── Focus Ring Utility ──────────────────────────────────────── */
+.focus-brand:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-surface-900), 0 0 0 4px var(--color-brand);
+}
+
+/* ─── Gradient Border Card ────────────────────────────────────── */
+.card-gradient {
+  position: relative;
+  background: var(--color-surface-800);
+  border-radius: 1.25rem;
+}
+
+.card-gradient::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: calc(1.25rem + 1px);
+  background: linear-gradient(135deg,
+      rgba(99, 102, 241, 0.4) 0%,
+      rgba(30, 30, 46, 0) 50%,
+      rgba(99, 102, 241, 0.15) 100%);
+  z-index: -1;
+}
+
+/* ─── Input Base ─────────────────────────────────────────────── */
+.input-dark {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.625rem;
+  background: var(--color-surface-700);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-dark::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input-dark:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* ─── Primary Button ─────────────────────────────────────────── */
+.btn-primary {
+  width: 100%;
+  padding: 0.8125rem 1.5rem;
+  border-radius: 0.625rem;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ─── Ambient Glow ───────────────────────────────────────────── */
+.ambient-glow {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse, hsla(var(--primary) / 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-600);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-surface-700);
+}
+
+/* ─── ContentEditable placeholder ────────────────────────────── */
+[contenteditable=true]:empty:before {
+  content: attr(data-placeholder);
+  color: hsl(var(--muted-foreground));
+  pointer-events: none;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
