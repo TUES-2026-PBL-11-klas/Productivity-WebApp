@@ -1,0 +1,112 @@
+{
+  "users": [
+    [
+      "id",
+      "uuid"
+    ],
+    [
+      "email",
+      "character varying"
+    ],
+    [
+      "hashed_password",
+      "character varying"
+    ],
+    [
+      "display_name",
+      "character varying"
+    ],
+    [
+      "bio",
+      "character varying"
+    ],
+    [
+      "created_at",
+      "timestamp with time zone"
+    ],
+    [
+      "updated_at",
+      "timestamp with time zone"
+    ],
+    [
+      "deleted_at",
+      "timestamp with time zone"
+    ],
+    [
+      "deleted_by",
+      "uuid"
+    ]
+  ],
+  "workspaces": [
+    [
+      "id",
+      "uuid"
+    ],
+    [
+      "user_id",
+      "uuid"
+    ],
+    [
+      "name",
+      "character varying"
+    ],
+    [
+      "type",
+      "character varying"
+    ],
+    [
+      "content",
+      "character varying"
+    ],
+    [
+      "todos",
+      "json"
+    ],
+    [
+      "createdAt",
+      "character varying"
+    ],
+    [
+      "deleted",
+      "boolean"
+    ]
+  ],
+  "workspace_members": [
+    [
+      "id",
+      "integer"
+    ],
+    [
+      "workspace_id",
+      "uuid"
+    ],
+    [
+      "user_id",
+      "uuid"
+    ],
+    [
+      "role",
+      "character varying"
+    ],
+    [
+      "status",
+      "character varying"
+    ],
+    [
+      "is_favorite",
+      "boolean"
+    ],
+    [
+      "created_at",
+      "timestamp with time zone"
+    ],
+    [
+      "updated_at",
+      "timestamp with time zone"
+    ],
+    [
+      "deleted_at",
+      "timestamp with time zone"
+    ]
+  ]
+}

@@ -9,8 +9,6 @@ from middleware.cors import setup_cors
 # Ensure uploads directory exists
 if not os.path.exists("uploads"):
     os.makedirs("uploads")
-from routers import auth, workspaces, settings, trash, inbox
-from setup_db import init_database
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -25,6 +23,3 @@ app.include_router(auth.router)
 app.include_router(workspaces.router)
 app.include_router(calendar_events.router)
 app.include_router(uploads.router)
-app.include_router(settings.router)
-app.include_router(trash.router)
-app.include_router(inbox.router)

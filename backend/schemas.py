@@ -1,78 +1,6 @@
-
-from datetime import datetime
-from uuid import UUID
 from pydantic import BaseModel, EmailStr
 from typing import List
-from typing import List, Optional
-
-# User Settings
-class UserSettingsResponse(BaseModel):
-    user_id: UUID
-    theme: str
-    language: str
-    notifications_enabled: bool
-    updated_at: Optional[datetime]
-
-    class Config:
-        from_attributes = True
-
-# Notifications
-class NotificationResponse(BaseModel):
-    id: UUID
-    user_id: UUID
-    type: str
-    content: str
-    is_read: bool
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
-
-class NotificationCreate(BaseModel):
-    type: str
-    content: str
-
-# Invites
-class InviteResponse(BaseModel):
-    id: UUID
-    user_id: UUID
-    workspace_id: Optional[UUID]
-    event_id: Optional[UUID]
-    sender_id: Optional[UUID]
-    type: str
-    status: str
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
-
-
-class InviteCreate(BaseModel):
-    workspace_id: Optional[UUID]
-    event_id: Optional[UUID]
-    type: str  # 'workspace' or 'event'
-
-
-# Trash
-class TrashItemCreate(BaseModel):
-    item_type: str
-    item_id: str
-
-class TrashItemResponse(BaseModel):
-    id: str
-    user_id: UUID
-    item_type: str
-    item_id: str
-    deleted_at: datetime
-
-    class Config:
-        from_attributes = True
-
-
-class UserSettingsUpdate(BaseModel):
-    theme: Optional[str] = None  # 'light' or 'dark'
-    language: Optional[str] = None  # 'bg' or 'en'
-    notifications_enabled: Optional[bool] = None
+import uuid
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -88,7 +16,7 @@ class UserUpdate(BaseModel):
     bio: str | None = None
 
 class UserResponse(BaseModel):
-    id: int
+    id: uuid.UUID
     email: EmailStr
     display_name: str | None = None
     bio: str | None = None
@@ -97,7 +25,7 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 class WorkspaceBase(BaseModel):
-    id: str
+    id: uuid.UUID
     name: str
     type: str
     content: str | None = ""
@@ -119,7 +47,7 @@ class WorkspaceFavoriteUpdate(BaseModel):
     is_favorite: bool
 
 class WorkspaceResponse(WorkspaceBase):
-    user_id: int
+    user_id: uuid.UUID
     role: str | None = "owner"
     is_favorite: bool | None = False
 
@@ -150,7 +78,7 @@ class EventUpdate(BaseModel):
 
 class EventResponse(EventBase):
     id: int
-    user_id: int
+    user_id: uuid.UUID
     created_at: str
 
     class Config:

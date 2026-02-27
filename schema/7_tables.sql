@@ -44,19 +44,13 @@ CREATE TABLE IF NOT EXISTS table_cells (
   PRIMARY KEY (row_id, column_id)
 );
 
-DO $$ BEGIN
-  ALTER TABLE blocks
-    ADD CONSTRAINT fk_blocks_table
-    FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN null;
-END $$;
+ALTER TABLE blocks
+  ADD CONSTRAINT IF NOT EXISTS fk_blocks_table
+  FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE SET NULL;
 
-DO $$ BEGIN
-  ALTER TABLE blocks
-    ADD CONSTRAINT fk_blocks_calendar
-    FOREIGN KEY (calendar_id) REFERENCES calendars(id) ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN null;
-END $$;
+ALTER TABLE blocks
+  ADD CONSTRAINT IF NOT EXISTS fk_blocks_calendar
+  FOREIGN KEY (calendar_id) REFERENCES calendars(id) ON DELETE SET NULL;
 
 ALTER TABLE blocks
   DROP CONSTRAINT IF EXISTS chk_blocks_object_match;
