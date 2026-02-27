@@ -1,7 +1,9 @@
-from sqlalchemy import Column, Integer, String, DateTime,ForeignKey
+from sqlalchemy import Column, String, DateTime, ForeignKey, Boolean, UUID as SqlUUID
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
-from database import Base
 from sqlalchemy.orm import relationship
+from database import Base
+import uuid
 
 
 class User(Base):
@@ -9,34 +11,47 @@ class User(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
-    password = Column(String, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-
-class Workspace(Base):
-    __tablename__ = "workspaces"
-
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    owner_id = Column(Integer, ForeignKey("users.id"))
-
-    members = relationship("WorkspaceMember", back_populates="workspace")
-
-
-class WorkspaceMember(Base):
-    __tablename__ = "workspace_members"
-
-    id = Column(Integer, primary_key=True, index=True)
-    workspace_id = Column(Integer, ForeignKey("workspaces.id"))
-    user_id = Column(Integer, ForeignKey("users.id"))
-    role = Column(String, default="member")  # owner / member
-
-    workspace = relationship("Workspace", back_populates="members")
     hashed_password = Column(String, nullable=False)
     display_name = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     deleted_at = Column(DateTime(timezone=True), nullable=True)
     deleted_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+
+
+class Workspace(Base):
+    __tablename__ = "workspaces"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    name = Column(String, nullable=False)
+    owner_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    visibility = Column(String, nullable=False, default="private")
+
+    members = relationship("WorkspaceMember", back_populates="workspace")
+
+
+
+from sqlalchemy import PrimaryKeyConstraint
+
+class WorkspaceMember(Base):
+    __tablename__ = "workspace_members"
+    __table_args__ = (
+        PrimaryKeyConstraint('workspace_id', 'user_id'),
+    )
+
+    workspace_id = Column(UUID(as_uuid=True), ForeignKey("workspaces.id"))
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    role = Column(String, default="member", nullable=False)
+    can_create_pages = Column(String)
+    can_create_blocks = Column(String)
+    can_invite_members = Column(String)
+    joined_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    workspace = relationship("Workspace", back_populates="members")
+
 
 class UserSettings(Base):
     __tablename__ = "user_settings"
