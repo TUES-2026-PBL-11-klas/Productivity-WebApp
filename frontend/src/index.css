@@ -61,6 +61,16 @@ body {
   min-height: 100vh;
 }
 
+/* Accessibility settings from Settings page */
+body.reduce-motion * {
+  animation: none !important;
+  transition: none !important;
+}
+
+body.large-text {
+  font-size: 110%;
+}
+
 /* ─── Focus Ring Utility ──────────────────────────────────────── */
 .focus-brand:focus {
   outline: none;

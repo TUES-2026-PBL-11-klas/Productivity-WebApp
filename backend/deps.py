@@ -7,7 +7,9 @@ import os
 from database import SessionLocal
 from models import User
 
-SECRET_KEY = os.getenv("SECRET_KEY", "SUPER_SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY environment variable is not set!")
 ALGORITHM = "HS256"
 security = HTTPBearer()
 
