@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./context/AuthContext";
 import { WorkspacesProvider } from "./context/WorkspacesContext";
@@ -23,6 +24,22 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 function App() {
+  // Apply persisted accessibility settings on first load
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem("app_settings");
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      const body = document.body;
+      if (!body) return;
+      body.classList.toggle("reduce-motion", !!parsed.reduceMotion);
+      body.classList.toggle("large-text", !!parsed.largeText);
+    } catch {
+      // ignore
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider delayDuration={0}>
