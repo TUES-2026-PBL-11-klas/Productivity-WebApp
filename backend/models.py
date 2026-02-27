@@ -12,7 +12,7 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     display_name = Column(String, nullable=True)
-    bio = Column(String, nullable=True)
+    bio = Column(String, nullable=False, default="")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     workspaces = relationship("Workspace", back_populates="owner")
